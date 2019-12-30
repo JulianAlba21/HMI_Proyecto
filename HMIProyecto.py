@@ -34,6 +34,12 @@ class raizHMI(tk.Tk):
     #imagen boton cargar
         load=Image.open('button_cargar.png').resize((60,27), Image.ANTIALIAS)
         self.Imagen7= ImageTk.PhotoImage(load)
+    #Imagen flechas de control subir
+        load=Image.open('arrow.png').resize((20,20), Image.ANTIALIAS)
+        self.Imagen8= ImageTk.PhotoImage(load)
+    #Imagen flechas de control bajar
+        load=Image.open('arrowDown.png').resize((20,20), Image.ANTIALIAS)
+        self.Imagen9= ImageTk.PhotoImage(load)
         
         tk.Tk.iconbitmap(self, default="UnabCasa.ico")
         tk.Tk.wm_title(self, "Secadora de Café")
@@ -162,6 +168,15 @@ class Manual(tk.Frame):
         button4['border']='0'
         button4.pack()
 
+        #boton flecha arriba 1
+        button5 = tk.Button(self, image=controller.Imagen8,bg='white')
+        button5['border']='0'
+        button5.pack()
+        #boton flecha abajo 1
+        button6 = tk.Button(self, image=controller.Imagen9,bg='white')
+        button6['border']='0'
+        button6.pack()
+
         #Franja de titulo
         Label1=tk.Label(self, text='CONTROL MANUAL',bg='#4D4D4D',width=800,height=1,fg='white', font=('Helvetica',10,'bold'),borderwidth=1, relief='solid')
         Label1.pack()
@@ -280,6 +295,10 @@ class Manual(tk.Frame):
         CanvasM.create_window(177,69, window=button2)
         CanvasM.create_window(177,140, window=button3)
         CanvasM.create_window(177,210, window=button4)
+        CanvasM.create_window(125,55, window=button5)
+        CanvasM.create_window(125,80, window=button6)
+
+    #Ventana para el label
         CanvasM.create_window(400,10, window=Label1)
 
 #Ventanas Para los Labels
