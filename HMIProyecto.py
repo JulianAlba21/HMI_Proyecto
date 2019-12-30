@@ -9,6 +9,14 @@ import ctypes
 import urllib
 import json
 
+#variables contadoras
+cont1=0
+cont2=0
+cont3=0
+cont4=0
+cont5=0
+cont6=0
+
 class raizHMI(tk.Tk):
 #Se crea la raiz y el metodo de cambio entre paginas
 
@@ -69,6 +77,7 @@ class raizHMI(tk.Tk):
     def MostrarMarco(self,NombrePag):
         frame = self.frames[NombrePag]
         frame.tkraise()
+
 
 #Se crea la pagina de inicio o presentacion \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 class PagInicio(tk.Frame):
@@ -169,7 +178,7 @@ class Manual(tk.Frame):
         button4.pack()
 
         #boton flecha arriba 1
-        button5 = tk.Button(self, image=controller.Imagen8,bg='white')
+        button5 = tk.Button(self, image=controller.Imagen8,command=lambda: suma(),bg='white')
         button5['border']='0'
         button5.pack()
         #boton flecha abajo 1
@@ -183,7 +192,7 @@ class Manual(tk.Frame):
 
      #Labels escritores****************** modificar
         #Frecuencia motor aire secado
-        Label2=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid')
+        Label2=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid', text=cont1)
         Label2.pack()
         #Frecuencia motor aire combustion
         Label3=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid')
@@ -300,6 +309,11 @@ class Manual(tk.Frame):
 
     #Ventana para el label
         CanvasM.create_window(400,10, window=Label1)
+
+        def suma():
+            global cont1
+            cont1=cont1+1
+            Label2.config(text=cont1)
 
 #Ventanas Para los Labels
         
