@@ -9,7 +9,6 @@ import ctypes
 import urllib
 import json
 
-
 class raizHMI(tk.Tk):
 #Se crea la raiz y el metodo de cambio entre paginas
 
