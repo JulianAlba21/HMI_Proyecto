@@ -438,10 +438,32 @@ class Automatico(tk.Frame):
         button4['border']='0'
         button4.pack()
 
-        #Boton Casa
-        button1 = tk.Button(self,image=controller.Imagen4, command=lambda: controller.MostrarMarco("PagInicio"), bg='white')
-        button1['border']='0'
-        button1.pack()
+        #boton flecha arriba 1
+        button5 = tk.Button(self, image=controller.Imagen8,command=lambda: suma1(),bg='#DAE3E9')
+        button5['border']='0'
+        button5.pack()
+        #boton flecha abajo 1
+        button6 = tk.Button(self, image=controller.Imagen9,command=lambda: resta1(),bg='#DAE3E9')
+        button6['border']='0'
+        button6.pack()
+
+        #boton flecha arriba 2
+        button7 = tk.Button(self, image=controller.Imagen8,command=lambda: suma2(),bg='white')
+        button7['border']='0'
+        button7.pack()
+        #boton flecha abajo 2
+        button8 = tk.Button(self, image=controller.Imagen9,command=lambda: resta2(),bg='white')
+        button8['border']='0'
+        button8.pack()
+
+        #boton flecha arriba 3
+        button9 = tk.Button(self, image=controller.Imagen8,command=lambda: suma3(),bg='white')
+        button9['border']='0'
+        button9.pack()
+        #boton flecha abajo 3
+        button10 = tk.Button(self, image=controller.Imagen9,command=lambda: resta3(),bg='white')
+        button10['border']='0'
+        button10.pack()
 
         #Franja de titulo
         Label1=tk.Label(self, text='CONTROL AUTOMÁTICO',bg='#ED7D31',width=800,height=1,fg='white', font=('Helvetica',10,'bold'),borderwidth=1, relief='solid')
@@ -452,13 +474,13 @@ class Automatico(tk.Frame):
         
      #Labels escritores****************** modificar
         #Tem. Deseada del Aire de Salida
-        Label2=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid')
+        Label2=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid', text=cont4)
         Label2.pack()
         #Frecuencia motor Aire de secado
-        Label3=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid')
+        Label3=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid', text=cont5)
         #Label3.pack()
         #Frecuencia motor aire de combustion
-        Label4=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid')
+        Label4=tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid', text=cont6)
         #Label4.pack()
         #Frecuencia motor tornillo
         Label5=tk.Label(self,bg='white',width=5,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid')
@@ -566,6 +588,16 @@ class Automatico(tk.Frame):
         CanvasM.create_window(177,210, window=button4)
         CanvasM.create_window(400,10, window=Label1)
 
+        #botones arriba/abajo 1
+        CanvasM.create_window(125,54, window=button5)
+        CanvasM.create_window(125,78, window=button6)
+        #botones arriba/abajo 2
+        CanvasM.create_window(125,128, window=button7)
+        CanvasM.create_window(125,153, window=button8)
+        #botones arriba/abajo 3
+        CanvasM.create_window(125,198, window=button9)
+        CanvasM.create_window(125,223, window=button10)
+
 #Ventanas Para los Labels
         
         #Temp. deseada aire de salida
@@ -608,7 +640,32 @@ class Automatico(tk.Frame):
         CanvasM.create_line(786,40,786,130,fill='gray')
         CanvasM.create_line(500,130,785,130)
         CanvasM.create_line(500,131,785,131,fill='gray')
-        
+
+
+        def suma1():
+            global cont4
+            cont4=cont4+1
+            Label2.config(text=cont4)
+        def resta1():
+            global cont4
+            cont4=cont4-1
+            Label2.config(text=cont4)
+        def suma2():
+            global cont5
+            cont5=cont5+1
+            Label3.config(text=cont5)
+        def resta2():
+            global cont5
+            cont5=cont5-1
+            Label3.config(text=cont5)
+        def suma3():
+            global cont6
+            cont6=cont6+1
+            Label4.config(text=cont6)
+        def resta3():
+            global cont6
+            cont6=cont6-1
+            Label4.config(text=cont6)
 # Se asigna el tamano de la ventana y se incia el ciclo
 if __name__ == "__main__":
     app=raizHMI()
