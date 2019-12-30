@@ -182,7 +182,7 @@ class Manual(tk.Frame):
         button5['border']='0'
         button5.pack()
         #boton flecha abajo 1
-        button6 = tk.Button(self, image=controller.Imagen9,bg='white')
+        button6 = tk.Button(self, image=controller.Imagen9,command=lambda: resta(),bg='white')
         button6['border']='0'
         button6.pack()
 
@@ -313,6 +313,10 @@ class Manual(tk.Frame):
         def suma():
             global cont1
             cont1=cont1+1
+            Label2.config(text=cont1)
+        def resta():
+            global cont1
+            cont1=cont1-1
             Label2.config(text=cont1)
 
 #Ventanas Para los Labels
