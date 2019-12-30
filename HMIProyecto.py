@@ -295,8 +295,8 @@ class Manual(tk.Frame):
         CanvasM.create_window(177,69, window=button2)
         CanvasM.create_window(177,140, window=button3)
         CanvasM.create_window(177,210, window=button4)
-        CanvasM.create_window(125,55, window=button5)
-        CanvasM.create_window(125,80, window=button6)
+        CanvasM.create_window(125,57, window=button5)
+        CanvasM.create_window(125,82, window=button6)
 
     #Ventana para el label
         CanvasM.create_window(400,10, window=Label1)
