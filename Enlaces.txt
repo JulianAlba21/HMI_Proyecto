@@ -17,5 +17,7 @@ Para descargar el repositorio de github
 https://github.com/JulianAlba21/HMI_Proyecto.git
 
 Instalacion Pyimagesearch
-
 https://www.pyimagesearch.com/2017/09/04/raspbian-stretch-install-opencv-3-python-on-your-raspberry-pi/
+
+Ejecucion de un archivo automaticamente
+https://www.pyimagesearch.com/2016/05/16/running-a-python-opencv-script-on-reboot/

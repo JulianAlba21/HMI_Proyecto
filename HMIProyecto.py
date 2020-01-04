@@ -49,7 +49,7 @@ class raizHMI(tk.Tk):
         load=Image.open('arrowDown.png').resize((20,20), Image.ANTIALIAS)
         self.Imagen9= ImageTk.PhotoImage(load)
         
-        tk.Tk.iconbitmap(self, default="UnabCasa.ico")
+        #tk.Tk.iconbitmap(self, default="UnabCasa.ico")
         tk.Tk.wm_title(self, "Secadora de Café")
 
         contenedor = tk.Frame(self)
