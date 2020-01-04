@@ -1,0 +1,6 @@
+#! /bin/bash
+
+source /home/julian/.profile
+workon cv
+cd
+python HMIProyecto
