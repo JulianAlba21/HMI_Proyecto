@@ -1,0 +1,17 @@
+Manual python 3.7.5 https://docs.python.org/3.7/index.html
+
+Instalacion de python HTML
+http://www.openbookproject.net/courses/webappdev/units/softwaredesign/resources/install_python_win7.html
+
+Comunicacion python arduino
+https://www.element14.com/community/thread/57074/l/serial-comm-between-arduino-using-python?displayFullThread=true
+
+Curso de GUi en python
+https://www.youtube.com/watch?v=hTUJC8HsC2I
+
+Para crear botones
+https://dabuttonfactory.com/
+
+Para descargar el repositorio de github
+
+https://github.com/JulianAlba21/HMI_Proyecto.git
