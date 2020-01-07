@@ -21,3 +21,6 @@ https://www.pyimagesearch.com/2017/09/04/raspbian-stretch-install-opencv-3-pytho
 
 Ejecucion de un archivo automaticamente
 https://www.pyimagesearch.com/2016/05/16/running-a-python-opencv-script-on-reboot/
+
+Configuracion de arduino con python3
+https://create.arduino.cc/projecthub/Jalal_Mansoori/python3-and-arduino-communication-c33192
