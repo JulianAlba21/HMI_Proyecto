@@ -1,4 +1,4 @@
-
+#version 10000
 import tkinter as tk
 from tkinter import PhotoImage
 from tkinter import ttk
