@@ -8,6 +8,8 @@ import matplotlib.animation as animation
 import struct
 import copy
 
+
+
 import tkinter as Tk
 
 from tkinter.ttk import Frame
@@ -140,18 +142,29 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
         button1 = Tk.Button(self,image=controller.Imagen4, command=lambda: controller.MostrarMarco("PagInicio"), bg='white')
         button1['border']='0'
         button1.pack()
-        #Boton cargar1
-        button2 = Tk.Button(self, image=controller.Imagen7,command=lambda: controller.serialReference.sendSerialData(str(8)),bg='white')
+        #Boton cargar1/ frecuencia motor aire de secado FMAS
+        button2 = Tk.Button(self, image=controller.Imagen7,command=lambda: send_FMAS(),bg='white')
         button2['border']='0'
         button2.pack()      
-        #Boton cargar2
-        button3 = Tk.Button(self, image=controller.Imagen7,bg='white')
+        #Boton cargar2/ Frecuencia motor aire combustion FMAC
+        button3 = Tk.Button(self, image=controller.Imagen7,command=lambda: send_FMAC(),bg='white')
         button3['border']='0'
         button3.pack()
-        #Boton cargar3
-        button4 = Tk.Button(self, image=controller.Imagen7,bg='white')
+        #Boton cargar3 / Frecuencia motor cisco FMC
+        button4 = Tk.Button(self, image=controller.Imagen7,command=lambda: send_FMC(),bg='white')
         button4['border']='0'
         button4.pack()
+
+        def send_FMAS():
+            controller.serialReference.sendSerialData('A' + str(cont1) + '%')
+            print('se envio valor cont 1 = '+str(cont1))
+        def send_FMAC():
+            controller.serialReference.sendSerialData('B' + str(cont2) + '%')
+            print('se envio valor cont 2 = '+str(cont2))
+        def send_FMC():
+            controller.serialReference.sendSerialData('C' + str(cont3) + '%')
+            print('se envio valor cont 3 = '+str(cont3))
+        
         #boton flecha arriba 1
         button5 = Tk.Button(self, image=controller.Imagen8,command=lambda: suma1(),bg='white')
         button5['border']='0'
@@ -267,6 +280,7 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
 #Temperaturas
 
         #Temp. Aire de Entrada
+
         CanvasM.create_text(331,225, text="Temp. Aire de Entrada",font=("Helvetica", 8), fill="gray", width=60, justify="center")
         CanvasM.create_text(330,225, text="Temp. Aire de Entrada",font=("Helvetica", 8), fill="black", width=60, justify="center")
         CanvasM.create_text(350,250, text="ºC",font=("Helvetica", 10, 'bold'), fill="black", width=500, justify="left")
@@ -378,18 +392,29 @@ class Automatico(Frame):
         button1 = Tk.Button(self,image=controller.Imagen4, command=lambda: controller.MostrarMarco("PagInicio"), bg='white')
         button1['border']='0'
         button1.pack()
-        #Boton cargar1
-        button2 = Tk.Button(self, image=controller.Imagen7,bg='#DAE3E9')
+        #Boton cargar1 Set Point aire salida/ SetPoint
+        button2 = Tk.Button(self, image=controller.Imagen7, command=lambda: send_FMAS(), bg='#DAE3E9')
         button2['border']='0'
         button2.pack()
-        #Boton cargar2
-        button3 = Tk.Button(self, image=controller.Imagen7,bg='white')
+        #Boton cargar2 Frecuencia motor aire secado / FMAS
+        button3 = Tk.Button(self, image=controller.Imagen7, command=lambda: send_FMAC(), bg='white')
         button3['border']='0'
         button3.pack()
-        #Boton cargar3
-        button4 = Tk.Button(self, image=controller.Imagen7,bg='white')
+        #Boton cargar3 Frecuencia Motor Aire Combustion / FMAC
+        button4 = Tk.Button(self, image=controller.Imagen7, command=lambda: send_FMC(), bg='white')
         button4['border']='0'
         button4.pack()
+
+        def send_FMAS():
+            controller.serialReference.sendSerialData('D' + str(cont4) + '%')
+            print('se envio valor cont 4 = '+str(cont4))
+        def send_FMAC():
+            controller.serialReference.sendSerialData('E' + str(cont5) + '%')
+            print('se envio valor cont 5 = '+str(cont5))
+        def send_FMC():
+            controller.serialReference.sendSerialData('F' + str(cont6) + '%')
+            print('se envio valor cont 6 = '+str(cont6))
+            
         #boton flecha arriba 1
         button5 = Tk.Button(self, image=controller.Imagen8,command=lambda: suma1(),bg='#DAE3E9')
         button5['border']='0'
@@ -619,8 +644,7 @@ class ConexionSerial:
                 
     def sendSerialData(self, data):
         self.serialConnection.write(data.encode('utf-8'))
-        print('enviando algo')
-                
+               
     def backGroundThread(self):
         time.sleep(1.0)
         self.serialConnection.reset_input_buffer()
@@ -643,7 +667,7 @@ def main():
     s=ConexionSerial(portName, baudRate)
     s.readSerialStart()
     app=raiz(s)
-    app.geometry("800x450")
+    app.geometry("800x600")
     app.resizable(0,0)
     app.mainloop()
     s.close()
