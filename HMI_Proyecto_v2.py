@@ -33,9 +33,11 @@ cont6=0
 
 
 class raiz(Tk.Tk):
-    def __init__(self, *args, **kwargs):#serial reference
+    def __init__(self, SerialReference, *args, **kwargs):#serial reference
         Tk.Tk.__init__(self, *args, **kwargs)
-        
+
+        self.serialReference=SerialReference
+                
         self.title("Secadora de Café")
         Tk.Tk.iconbitmap(self, default="UnabCasa.ico")
         self.Imagen1= Tk.PhotoImage(file="button_manual.png")
@@ -139,7 +141,7 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
         button1['border']='0'
         button1.pack()
         #Boton cargar1
-        button2 = Tk.Button(self, image=controller.Imagen7,bg='white')
+        button2 = Tk.Button(self, image=controller.Imagen7,command=lambda: controller.serialReference.sendSerialData(str(8)),bg='white')
         button2['border']='0'
         button2.pack()      
         #Boton cargar2
@@ -356,6 +358,9 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
         CanvasM.create_line(786,40,786,130,fill='gray')
         CanvasM.create_line(500,130,785,130)
         CanvasM.create_line(500,131,785,131,fill='gray')
+
+        def prueba(self):
+            print()
 
 #se crea la pagina Automatico //////////////////////////////////////////////////
 class Automatico(Frame):
@@ -605,6 +610,24 @@ class ConexionSerial:
         except:
             print("Failed to connect with " + str(serialPort) + ' at ' + str(serialBaud) + ' BAUD.')
 
+    def readSerialStart(self):
+        if self.thread == None:
+            self.thread = Thread(target=self.backGroundThread)
+            self.thread.start()
+            while self.isReceiving != True:
+                time.sleep(0.1)
+                
+    def sendSerialData(self, data):
+        self.serialConnection.write(data.encode('utf-8'))
+        print('enviando algo')
+                
+    def backGroundThread(self):
+        time.sleep(1.0)
+        self.serialConnection.reset_input_buffer()
+        while (self.isRun):
+            self.serialConnection.readinto(self.rawData)
+            self.isReceiving = True
+
     def close(self):
         self.isRun = False
         self.thread.join()
@@ -618,13 +641,11 @@ def main():
     portName='COM5'
     baudRate=38400
     s=ConexionSerial(portName, baudRate)
-    
-
-    #app=raiz()
-    #app.geometry("800x450")
-    #app.resizable(0,0)
-    #app.mainloop()
-
+    s.readSerialStart()
+    app=raiz(s)
+    app.geometry("800x450")
+    app.resizable(0,0)
+    app.mainloop()
     s.close()
     
 if __name__=='__main__':
