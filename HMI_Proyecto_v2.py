@@ -1,5 +1,4 @@
 from threading import Thread
-
 import serial
 import time
 import collections
@@ -7,8 +6,6 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import struct
 import copy
-
-
 
 import tkinter as Tk
 
@@ -32,6 +29,13 @@ cont3=0
 cont4=0
 cont5=0
 cont6=0
+
+tiempoRef=time.time()
+
+pot1=0
+pot2=0
+pot3=0
+pot4=0
 
 
 class raiz(Tk.Tk):
@@ -80,11 +84,15 @@ class raiz(Tk.Tk):
             frame= F(parent=contenedor, controller=self)
             self.frames[NombrePag]=frame
             frame.grid(row=0, column=0, sticky="nsew")
+
+        
             
         self.MostrarMarco("PagInicio")
     def MostrarMarco(self,NombrePag):
         frame = self.frames[NombrePag]
         frame.tkraise()
+
+    
 
 class PagInicio(Frame):#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -120,6 +128,8 @@ class PagInicio(Frame):#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         Fondo2.create_window(360,290, window=button2)
         Fondo2.create_image(450, 390, image=controller.Imagen3) #logo unab
         Fondo.create_line(300,0,300,450)
+
+        
 
 class Manual(Frame):#////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -234,9 +244,7 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
 
     #LABELS mostradores ***conectar a arduino
 
-        #Frecuencia M. Aire Secado
-        Label6=Tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid')
-        Label6.pack()
+
 
         #Frecuencia motor aire secado
         CanvasM.create_text(101,35, text="Frecuencia Motor Aire Secado",font=("Helvetica", 10), fill="gray", width=500, justify="left")
@@ -373,9 +381,16 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
         CanvasM.create_line(500,130,785,130)
         CanvasM.create_line(500,131,785,131,fill='gray')
 
-        def prueba(self):
-            print()
+        def refresh():
 
+            Label10.config(text=controller.serialReference.getSerialData(1))
+            Label11.config(text=controller.serialReference.getSerialData(2))
+            Label12.config(text=controller.serialReference.getSerialData(3))
+            Label13.config(text=controller.serialReference.getSerialData(4))
+            
+            self.after(500, refresh)
+
+        refresh()
 #se crea la pagina Automatico //////////////////////////////////////////////////
 class Automatico(Frame):
 
@@ -484,10 +499,6 @@ class Automatico(Frame):
         Label13.pack()
 
     #LABELS mostradores ***conectar a arduino
-
-        #Frecuencia M. Aire Secado
-        Label6=Tk.Label(self,bg='white',width=7,height=1, font=('Helvetica',10, 'bold'),fg='black', borderwidth=1, relief='solid')
-        Label6.pack()
 
     #textos
 
@@ -614,19 +625,33 @@ class Automatico(Frame):
             cont6=cont6-1
             Label4.config(text=cont6)
 
-class ConexionSerial:
-    def __init__(self, serialPort = 'COM5', serialBaud = 38400):
+        def refresh():
+
+            Label10.config(text=controller.serialReference.getSerialData(1))
+            Label11.config(text=controller.serialReference.getSerialData(2))
+            Label12.config(text=controller.serialReference.getSerialData(3))
+            Label13.config(text=controller.serialReference.getSerialData(4))
+            
+            self.after(500, refresh)
+
+        refresh()
+
+class ConexionSerial: #/////////////////////////////////////////////////////////////////////////////////////////////////////
+    def __init__(self, serialPort = 'COM5', serialBaud = 38400, DataNumBytes=4, NumIn=4):
         self.port = serialPort
         self.baud = serialBaud
-        self.rawData= bytearray(4*2)
+        self.dataNumBytes=DataNumBytes
+        self.numIn=NumIn
+        
+        self.rawData= bytearray(self.numIn*self.dataNumBytes)
         self.isRun = True
         self.isReceiving = False
         self.thread = None
-        #self.dataType = 'f'
-        #self.data=[]
+        self.dataType = 'f'
+        self.data=[]
 
-        #for i in range(2):
-            #self.data.append(collections.deque([0]*1, maxlen=1))
+        for i in range(self.numIn):
+            self.data.append(collections.deque([0]*1, maxlen=1))
          
         print('Trying to connect to: ' + str(serialPort) + ' at ' + str(serialBaud) + ' BAUD.')
         try:
@@ -640,8 +665,33 @@ class ConexionSerial:
             self.thread = Thread(target=self.backGroundThread)
             self.thread.start()
             while self.isReceiving != True:
-                time.sleep(0.1)
-                
+                time.sleep(0.1)               
+
+    def getSerialData(self, g=0):
+        privateData= copy.deepcopy(self.rawData[:])
+        for i in range(self.numIn):
+            data =privateData[(i*self.dataNumBytes):(self.dataNumBytes+i*self.dataNumBytes)]
+            value, = struct.unpack('f', data)
+            self.data[i].append(value)
+        pot1=list(self.data[0])
+        pot2=list(self.data[1])
+        pot3=list(self.data[2])
+        pot4=list(self.data[3])
+        
+        pot1=pot1[0]
+        pot2=pot2[0]
+        pot3=pot3[0]
+        pot4=pot4[0]
+
+        if g == 1:
+            return pot1
+        if g == 2:
+            return pot2
+        if g == 3:
+            return pot3
+        if g == 4:
+            return pot4
+                   
     def sendSerialData(self, data):
         self.serialConnection.write(data.encode('utf-8'))
                
@@ -658,16 +708,18 @@ class ConexionSerial:
         self.serialConnection.close()
         print('Disconnected...')
 
-def main():
+def main(): 
 
     #Para comunicación Serial
-
     portName='COM5'
     baudRate=38400
-    s=ConexionSerial(portName, baudRate)
+    dataNumBytes = 4
+    numIn=4
+    
+    s=ConexionSerial(portName, baudRate, dataNumBytes, numIn)
     s.readSerialStart()
     app=raiz(s)
-    app.geometry("800x600")
+    app.geometry("800x450")
     app.resizable(0,0)
     app.mainloop()
     s.close()
