@@ -130,8 +130,8 @@ def main():
     baudRate=38400
     dataNumBytes = 4
     NumIn=4
-    #s=ConexionSerial(portName, baudRate, dataNumBytes, NumIn)
-    #s.readSerialStart()
+    s=ConexionSerial(portName, baudRate, dataNumBytes, NumIn)
+    s.readSerialStart()
 
     workbook= xlsxwriter.Workbook('Datos.xlsx')
     worksheet=workbook.add_worksheet()
@@ -146,8 +146,6 @@ def main():
     worksheet.write_string('F2', 'Val2') #se escribe valor 2 en excel
     worksheet.write_string('F3', 'Val3') #se escribe valor 3 en excel
     worksheet.write_string('F4', 'Val4') #se escribe valor 4 en excel
-
-    s=1
 
     root=Tk.Tk()
     app=ventana(root, s, worksheet)

@@ -38,9 +38,8 @@ class raiz(Tk.Tk):
         self.serialReference=SerialReference
                 
         self.title("Secadora de Café")
-        Tk.Tk.iconbitmap(self, default="UnabCasa.ico")
+        #Tk.Tk.iconbitmap(self, default="UnabCasa.ico")
         self.Imagen1= Tk.PhotoImage(file="button_manual.png")
-        self.iconbitmap(self, default='UnabCasa.ico')
         self.Imagen2= Tk.PhotoImage(file="button_automatico.png")
         Imagen3= Tk.PhotoImage(file="Unab.png")
         self.Imagen3=Imagen3.subsample(11)
@@ -703,6 +702,7 @@ class ConexionSerial: #/////////////////////////////////////////////////////////
 def main(): 
 
     #Para comunicación Serial
+    #portName='/dev/ttyACM0'
     portName='COM5'
     baudRate=38400
     dataNumBytes = 4

@@ -2,13 +2,27 @@ unsigned long timer=0;
 long deltaT = 5000; //us
 double valor1=0;
 double valor2=0;
+double valor3=0;
+double valor4=0;
+double valor5=0;
+double valor6=0;
+
+bool ModoM=false;
+bool ModoA=false;
 
 void setup() {
+  
   pinMode(LED_BUILTIN, OUTPUT);
+  
   pinMode(A0, INPUT);
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
   pinMode(A3, INPUT);
+
+  pinMode(9, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(5, OUTPUT);
+  
   
   Serial.begin(38400);
   timer = micros();
@@ -17,6 +31,7 @@ void setup() {
 
 void loop(){
  timeSync(deltaT);
+ 
  double pot1=analogRead(A0);
  double pot2=analogRead(A1);
  double pot3=analogRead(A2);
@@ -49,20 +64,59 @@ void getSerialData(){
     String tmp = "";
     switch(input){
       case 'A':
-        tmp = getVal();
-        if (tmp != "X"){
-          valor1 = tmp.toFloat();
-          digitalWrite(LED_BUILTIN, HIGH);
-        }
+        digitalWrite(LED_BUILTIN, LOW);
+        ModoM=false;
+        ModoA=!ModoA;
+        break;
+      case 'M':
+        digitalWrite(LED_BUILTIN, HIGH);
+        ModoA=false;
+        ModoM=!ModoM;
         break;
       case 'B':
-        tmp =getVal();
-        if (tmp != "X"){
-          valor2= tmp.toFloat();
-          digitalWrite(LED_BUILTIN, LOW);
+        tmp = getVal();
+        if (tmp != "X" && ModoM == 1){
+          valor1 = tmp.toFloat();
+          analogWrite(9, valor1);
         }
         break;
+      case 'C':
+        tmp =getVal();
+        if (tmp != "X" && ModoM == 1){
+          valor2= tmp.toFloat();
+          analogWrite(6, valor2);
+        }
+        break;
+       case 'D':
+        tmp =getVal();
+        if (tmp != "X" && ModoM == 1){
+          valor3= tmp.toFloat();
+          analogWrite(5, valor3);
+        }
+        break;
+       case 'E':
+        tmp =getVal();
+        if (tmp != "X" && ModoA == 1){
+          valor4= tmp.toFloat();
+          analogWrite(9, valor4);
+        }
+        break;
+       case 'F':
+        tmp =getVal();
+        if (tmp != "X"  && ModoA == 1){
+          valor5= tmp.toFloat();
+          analogWrite(6, valor5);
+        }
+        break;
+       case 'G':
+        tmp =getVal();
+        if (tmp != "X"  && ModoA == 1){
+          valor6= tmp.toFloat();
+          analogWrite(5, valor6);
+        }
+       break;
     }
+   
   }
 }
 
