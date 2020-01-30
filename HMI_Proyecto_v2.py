@@ -2,33 +2,26 @@ from threading import Thread
 import serial
 import time
 import collections
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import struct
 import copy
-
 import tkinter as Tk
-
 from tkinter.ttk import Frame
 from tkinter import PhotoImage
 from tkinter import ttk
 from tkinter import font as tkfont
-
 import pandas as pd
-
 from PIL import Image, ImageTk
-
 import ctypes
 import urllib
 import json
 
 #variables contadoras
-cont1=0
-cont2=0
-cont3=0
-cont4=0
-cont5=0
-cont6=0
+cont1=255
+cont2=255
+cont3=255
+cont4=255
+cont5=255
+cont6=255
 
 tiempoRef=time.time()
 
@@ -84,15 +77,19 @@ class raiz(Tk.Tk):
             frame= F(parent=contenedor, controller=self)
             self.frames[NombrePag]=frame
             frame.grid(row=0, column=0, sticky="nsew")
-
-        
             
         self.MostrarMarco("PagInicio")
+        
     def MostrarMarco(self,NombrePag):
         frame = self.frames[NombrePag]
+        if(NombrePag == 'Manual'):
+            self.serialReference.sendSerialData('M')
+            print('entramos en Manual')
+                  
+        if(NombrePag == 'Automatico'):  
+            self.serialReference.sendSerialData('A')
+            print('entramos en automatico')
         frame.tkraise()
-
-    
 
 class PagInicio(Frame):#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -143,11 +140,6 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
         CanvasM.create_image(460,280,image=controller.Imagen5)#Imagen de la maquina
         CanvasM.create_image(570,85,image=controller.Imagen6)
 
-        def boton(self, Nombre, Imagen):
-            Nombre= Tk.Button(self,image=controller.Imagen, bg='white')
-            Nombre['border']='0'
-            Nombre.pack()
-
         #Boton Casa
         button1 = Tk.Button(self,image=controller.Imagen4, command=lambda: controller.MostrarMarco("PagInicio"), bg='white')
         button1['border']='0'
@@ -166,13 +158,13 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
         button4.pack()
 
         def send_FMAS():
-            controller.serialReference.sendSerialData('A' + str(cont1) + '%')
+            controller.serialReference.sendSerialData('B' + str(cont1) + '%')
             print('se envio valor cont 1 = '+str(cont1))
         def send_FMAC():
-            controller.serialReference.sendSerialData('B' + str(cont2) + '%')
+            controller.serialReference.sendSerialData('C' + str(cont2) + '%')
             print('se envio valor cont 2 = '+str(cont2))
         def send_FMC():
-            controller.serialReference.sendSerialData('C' + str(cont3) + '%')
+            controller.serialReference.sendSerialData('D' + str(cont3) + '%')
             print('se envio valor cont 3 = '+str(cont3))
         
         #boton flecha arriba 1
@@ -421,13 +413,13 @@ class Automatico(Frame):
         button4.pack()
 
         def send_FMAS():
-            controller.serialReference.sendSerialData('D' + str(cont4) + '%')
+            controller.serialReference.sendSerialData('E' + str(cont4) + '%')
             print('se envio valor cont 4 = '+str(cont4))
         def send_FMAC():
-            controller.serialReference.sendSerialData('E' + str(cont5) + '%')
+            controller.serialReference.sendSerialData('F' + str(cont5) + '%')
             print('se envio valor cont 5 = '+str(cont5))
         def send_FMC():
-            controller.serialReference.sendSerialData('F' + str(cont6) + '%')
+            controller.serialReference.sendSerialData('G' + str(cont6) + '%')
             print('se envio valor cont 6 = '+str(cont6))
             
         #boton flecha arriba 1
@@ -637,7 +629,7 @@ class Automatico(Frame):
         refresh()
 
 class ConexionSerial: #/////////////////////////////////////////////////////////////////////////////////////////////////////
-    def __init__(self, serialPort = 'COM5', serialBaud = 38400, DataNumBytes=4, NumIn=4):
+    def __init__(self, serialPort = 'COM3', serialBaud = 38400, DataNumBytes=4, NumIn=4):
         self.port = serialPort
         self.baud = serialBaud
         self.dataNumBytes=DataNumBytes
