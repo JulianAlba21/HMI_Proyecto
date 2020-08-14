@@ -82,11 +82,11 @@ class raiz(Tk.Tk):
     def MostrarMarco(self,NombrePag):
         frame = self.frames[NombrePag]
         if(NombrePag == 'Manual'):
-            #self.serialReference.sendSerialData('M')
+            self.serialReference.sendSerialData('M')
             print('entramos en Manual')
                   
         if(NombrePag == 'Automatico'):  
-            #self.serialReference.sendSerialData('A')
+            self.serialReference.sendSerialData('A')
             print('entramos en automatico')
         frame.tkraise()
 
@@ -372,16 +372,16 @@ class Manual(Frame):#///////////////////////////////////////////////////////////
         CanvasM.create_line(500,130,785,130)
         CanvasM.create_line(500,131,785,131,fill='gray')
 
-        #def refresh():
+        def refresh():
 
-        #    Label10.config(text=controller.serialReference.getSerialData(1))
-        #    Label11.config(text=controller.serialReference.getSerialData(2))
-        #    Label12.config(text=controller.serialReference.getSerialData(3))
-        #    Label13.config(text=controller.serialReference.getSerialData(4))
-           
-         #   self.after(500, refresh)
+            Label10.config(text=controller.serialReference.getSerialData(1))
+            Label11.config(text=controller.serialReference.getSerialData(2))
+            Label12.config(text=controller.serialReference.getSerialData(3))
+            Label13.config(text=controller.serialReference.getSerialData(4))
+            
+            self.after(500, refresh)
 
-        #refresh()
+        refresh()
 #se crea la pagina Automatico //////////////////////////////////////////////////
 class Automatico(Frame):
 
@@ -616,19 +616,19 @@ class Automatico(Frame):
             cont6=cont6-1
             Label4.config(text=cont6)
 
-        #def refresh():
+        def refresh():
 
-        #    Label10.config(text=controller.serialReference.getSerialData(1))
-        #    Label11.config(text=controller.serialReference.getSerialData(2))
-        #    Label12.config(text=controller.serialReference.getSerialData(3))
-        #    Label13.config(text=controller.serialReference.getSerialData(4))
+            Label10.config(text=controller.serialReference.getSerialData(1))
+            Label11.config(text=controller.serialReference.getSerialData(2))
+            Label12.config(text=controller.serialReference.getSerialData(3))
+            Label13.config(text=controller.serialReference.getSerialData(4))
             
-            #self.after(500, refresh)
+            self.after(500, refresh)
 
-        #refresh()
+        refresh()
 
 class ConexionSerial: #/////////////////////////////////////////////////////////////////////////////////////////////////////
-    def __init__(self, serialPort = 'COM3', serialBaud = 38400, DataNumBytes=2, NumIn=4):
+    def __init__(self, serialPort = 'COM3', serialBaud = 38400, DataNumBytes=4, NumIn=4):
         self.port = serialPort
         self.baud = serialBaud
         self.dataNumBytes=DataNumBytes
@@ -638,10 +638,7 @@ class ConexionSerial: #/////////////////////////////////////////////////////////
         self.isRun = True
         self.isReceiving = False
         self.thread = None
-        if self.dataNumBytes == 2:
-            self.dataType = 'h'     # 2 byte integer
-        elif self.dataNumBytes == 4:
-            self.dataType = 'f'     # 4 byte float
+        self.dataType = 'f'
         self.data=[]
 
         for i in range(self.numIn):
@@ -665,7 +662,7 @@ class ConexionSerial: #/////////////////////////////////////////////////////////
         privateData= copy.deepcopy(self.rawData[:])
         for i in range(self.numIn):
             data =privateData[(i*self.dataNumBytes):(self.dataNumBytes+i*self.dataNumBytes)]
-            value, = struct.unpack(self.dataType, data)
+            value, = struct.unpack('f', data)
             self.data[i].append(value)
         pot1=list(self.data[0])
         pot2=list(self.data[1])
@@ -707,13 +704,12 @@ def main():
     #Para comunicación Serial
     #portName='/dev/ttyACM0'
     portName='COM5'
-    baudRate=57600
+    baudRate=38400
     dataNumBytes = 4
     numIn=4
     
     s=ConexionSerial(portName, baudRate, dataNumBytes, numIn)
     s.readSerialStart()
-    #s=1
     app=raiz(s)
     app.geometry("800x450")
     app.resizable(0,0)
