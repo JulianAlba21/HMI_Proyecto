@@ -112,10 +112,8 @@ void getSerialData(){
         enviar=!enviar;
         break;
       case 'V':
-        if (ModoM == true || ModoA == true){
           V=!V;
           digitalWrite(rele,V);
-        }
         break;
       case 'F':
         tmp = getVal();
