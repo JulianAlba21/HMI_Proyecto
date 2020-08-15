@@ -26,3 +26,8 @@ https://www.pyimagesearch.com/2016/05/16/running-a-python-opencv-script-on-reboo
 
 Configuracion de arduino con python3
 https://create.arduino.cc/projecthub/Jalal_Mansoori/python3-and-arduino-communication-c33192
+
+Paginas para la ejecucioin automatica del programa
+
+https://stackoverflow.com/questions/36466500/on-raspberry-pi-auto-start-terminal-after-login
+https://blog.startingelectronics.com/auto-start-a-desktop-application-on-the-rapberry-pi/
