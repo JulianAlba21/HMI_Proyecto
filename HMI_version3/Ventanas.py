@@ -25,7 +25,7 @@ class raiz(Tk.Tk):
         self.workbook=workbook
                 
         self.title("Secadora de Café")
-        super().iconbitmap(self, default="UnabCasa.ico")
+        #super().iconbitmap(self, default="UnabCasa.ico")
         self.Imagen1= Tk.PhotoImage(file="button_manual.png")
         self.Imagen2= Tk.PhotoImage(file="button_automatico.png")
         Imagen3= Tk.PhotoImage(file="Unab.png")
