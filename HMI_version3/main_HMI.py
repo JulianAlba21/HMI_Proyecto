@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 #prorgrama principal de la interfaz
 #Esta funcion llama a modulos de comunicacion y de despliegue de ventanas
 
