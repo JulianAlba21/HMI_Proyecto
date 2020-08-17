@@ -44,7 +44,7 @@ class ConexionSerial():
             self.thread = Thread(target=self.backGroundThread)
             self.thread.start()
             while self.isReceiving != True:
-                time.sleep(0.5)           #espere tantos segundos    
+                time.sleep(5)           #espere tantos segundos    
 
     def getSerialData(self, g=0):
         privateData= copy.deepcopy(self.rawData[:])
@@ -83,8 +83,11 @@ class ConexionSerial():
             return var.LTS
                    
     def backGroundThread(self):
-        time.sleep(1.0)
-        self.serialConnection.reset_input_buffer()
+        time.sleep(5.0)
+        #self.serialConnection.reset_input_buffer()
+        self.serialConnection.flushInput()
+        self.serialConnection.flushOutput()
+        
         while (self.isRun):
             self.serialConnection.readinto(self.rawData)
             self.isReceiving = True
@@ -96,3 +99,4 @@ class ConexionSerial():
         self.thread.join()
         self.serialConnection.close()
         print('Disconnected...')
+

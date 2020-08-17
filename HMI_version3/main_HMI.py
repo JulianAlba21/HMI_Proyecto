@@ -5,21 +5,17 @@
 
 #librerias
 from threading import Thread
-
 import time
 
 #se importan variables
-
 import var
-
 #se importa la clase de conexion serial
 from Serial_conexion import *
-
 #importamos el modulo ventanas
 from Ventanas import *
-
 #importamos el modulo para la hoja de excel
 from TomaDatos import *
+
 
 def main():
     var.init()#se incializan las variables
@@ -35,7 +31,7 @@ def main():
     s.readSerialStart() #No activar si no esta conectado el arduino, inicializa el thread
     #s=1
     if var.tomarDatos==True:
-        workSheet=TomarDatos("Prueba")
+        workSheet=TomarDatos("Datos"+var.fecha)
         app=raiz(s,workSheet)#se incluye comunicaciòn serial y hoja de excel
     else:
         app=raiz(s)

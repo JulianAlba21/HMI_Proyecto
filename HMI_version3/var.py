@@ -1,6 +1,8 @@
 #variables
 
 import time
+from datetime import datetime
+
 def init():
     global tiempoRef
 
@@ -31,6 +33,13 @@ def init():
 
     global tomarDatos
     global row
+    global count #Contador interno para descansos del arduino
+
+    global fecha
+
+    #se ajusta el formato fecha hora
+    now=datetime.now()
+    fecha=now.strftime("_%d_%m__%H_%M")  
 
     tomarDatos = True
     row=1
@@ -56,5 +65,5 @@ def init():
     LTG=0.0
     LTC=0.0
     LFV=0.0
-    
+    count=0
     

@@ -2,6 +2,7 @@ import tkinter as Tk
 from tkinter.ttk import Frame
 
 import var
+import time
 
 class PagInicio(Frame):
     def __init__(self, parent, controller):
@@ -96,6 +97,15 @@ class PagInicio(Frame):
             print(str(var.row),str(var.TE),str(var.TG),str(var.TC),str(var.TS),str(var.MFV),sep=" ",end="\n")
             controller.workbook.GrafValores(var.row)
             var.row +=1
+            var.count+=1
+            if var.count == 2400:
+                controller.serialReference.sendSerialData('E')
+                controller.serialReference.sendSerialData('V')
+                time.sleep(2)
+                controller.serialReference.sendSerialData('E')
+                controller.serialReference.sendSerialData('V')
+                var.count = 0
+                
             self.after(500, refresh)
             
 

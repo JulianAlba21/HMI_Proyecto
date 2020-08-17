@@ -59,10 +59,10 @@ void loop(){
 timeSync(deltaT);
 
 if (enviar== true){
-LTE = ads.readADC_SingleEnded(0)*0.01865;
-LTG = ads.readADC_SingleEnded(1)*0.0829;
-LTC = ads.readADC_SingleEnded(2)*0.0805;
-LTS = ads.readADC_SingleEnded(3)*0.02125;
+LTE = ads.readADC_SingleEnded(0)*0.0176;
+LTG = ads.readADC_SingleEnded(1)*0.0826;
+LTC = ads.readADC_SingleEnded(2)*0.08;
+LTS = ads.readADC_SingleEnded(3)*0.0186;
 //Serial.print(LTE); Serial.print('\t');
 //Serial.print(LTG); Serial.print('\t');
 //Serial.print(LTC); Serial.print('\t');
