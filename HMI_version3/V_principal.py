@@ -100,10 +100,10 @@ class PagInicio(Frame):
             var.count+=1
             if var.count == 2400:
                 controller.serialReference.sendSerialData('E')
-                controller.serialReference.sendSerialData('V')
+                
                 time.sleep(2)
                 controller.serialReference.sendSerialData('E')
-                controller.serialReference.sendSerialData('V')
+                
                 var.count = 0
                 
             self.after(500, refresh)
