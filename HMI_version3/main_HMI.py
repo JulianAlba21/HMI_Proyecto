@@ -25,7 +25,7 @@ def main():
     portName='COM11 '
     baudRate=38400
     dataNumBytes = 4
-    numIn=4
+    numIn=5
     
     s=ConexionSerial(portName, baudRate, dataNumBytes, numIn)
     s.readSerialStart() #No activar si no esta conectado el arduino, inicializa el thread
@@ -34,7 +34,7 @@ def main():
         workSheet=TomarDatos("Datos"+var.fecha)
         app=raiz(s,workSheet)#se incluye comunicaciòn serial y hoja de excel
     else:
-        app=raiz(s)
+        app=raiz(s,0)
     app.geometry("800x450")
     app.resizable(0,0)
     app.mainloop()

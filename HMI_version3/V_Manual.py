@@ -26,17 +26,17 @@ class Manual(Frame):
 
         def B_casa():
             var.M=False
-            var.A=False
             var.read=False
             controller.serialReference.sendSerialData('E') #se inhabilita enviada de datos desde arduino
             
-            button5.config(image=controller.Imagen10)
-            button6.config(image=controller.Imagen12)
+            
             controller.serialReference.sendSerialData('F' + str(0) + '%') #se envia valor cero de frecuencia al variador
 
             if var.V==False:
                 pass
             else:
+                button5.config(image=controller.Imagen10)#imagen apagado para el variador
+                button6.config(image=controller.Imagen12)#imagen rojo para boton falso
                 controller.serialReference.sendSerialData('V')
                 var.V=False
 

@@ -41,7 +41,7 @@ def init():
     now=datetime.now()
     fecha=now.strftime("_%d_%m__%H_%M")  
 
-    tomarDatos = True
+    tomarDatos = True #Modificar esta variable para mostrar o no las opciones de toma de datos
     row=1
 
     V=False
@@ -51,10 +51,10 @@ def init():
     A=False
     read=False
     MFV=0
-    SP=0
-    P=0
-    I=0
-    D=0
+    SP=30
+    P=0.01
+    I=0.0000725
+    D=0.0001
     AFV=0.0
     TE=0.0
     TS=0.0

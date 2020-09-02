@@ -31,3 +31,6 @@ Paginas para la ejecucioin automatica del programa
 
 https://stackoverflow.com/questions/36466500/on-raspberry-pi-auto-start-terminal-after-login
 https://blog.startingelectronics.com/auto-start-a-desktop-application-on-the-rapberry-pi/
+
+Pagina para la lectura de usb en raspberry pi
+https://www.raspberrypi.org/documentation/configuration/external-storage.md

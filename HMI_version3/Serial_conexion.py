@@ -13,7 +13,7 @@ import time
 import var
 
 class ConexionSerial():
-    def __init__(self, serialPort = 'COM3', serialBaud = 38400, DataNumBytes=4, NumIn=4):
+    def __init__(self, serialPort = 'COM3', serialBaud = 38400, DataNumBytes=4, NumIn=5):
         self.port = serialPort
         self.baud = serialBaud
         self.dataNumBytes=DataNumBytes
@@ -56,11 +56,13 @@ class ConexionSerial():
         var.LTG=list(self.data[1])
         var.LTC=list(self.data[2])
         var.LTS=list(self.data[3])
+        var.LFV=list(self.data[4])
         
         var.LTE=var.LTE[0]
         var.LTG=var.LTG[0]
         var.LTC=var.LTC[0]
         var.LTS=var.LTS[0]
+        var.LFV=var.LFV[0]
 
         if g == 1:
             return int(var.LTE)
@@ -70,6 +72,8 @@ class ConexionSerial():
             return int(var.LTC)
         if g == 4:
             return int(var.LTS)
+        if g == 5:
+            return int(var.LFV)
 
         #envio de valores a excel
 

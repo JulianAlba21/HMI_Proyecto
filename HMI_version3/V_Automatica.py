@@ -1,5 +1,6 @@
 import tkinter as Tk
 from tkinter.ttk import Frame
+import time
 
 #importar variables
 import var
@@ -25,23 +26,27 @@ class Automatico(Frame):
         CanvasM.create_window(780,430, window=button1)
 
         def B_casa():
-            var.M=False
             var.A=False
-            var.LQR=False
-            var.PID=False
             var.read=False
-
             controller.serialReference.sendSerialData('E') #se inhabilita enviada de datos desde arduino
+            button5.config(image=controller.Imagen10)#Encendido apagado Variador
+            button6.config(image=controller.Imagen12)#boton falso
             
-            button5.config(image=controller.Imagen10)
-            button6.config(image=controller.Imagen12)
-            button7.config(image=controller.Imagen14)
-            button8.config(image=controller.Imagen16)
             if var.V==False:
                 pass
             else:
                 controller.serialReference.sendSerialData('V')
                 var.V=False
+
+            if var.LQR == True:
+                controller.serialReference.sendSerialData('L')
+                button7.config(image=controller.Imagen14)#LQR
+                var.LQR=False
+            if var.PID == True:
+                controller.serialReference.sendSerialData('N')
+                button8.config(image=controller.Imagen16)#PID
+                var.PID=False
+                
             controller.MostrarMarco("PagInicio")
                 
         #Boton cargar1/ SetPoint
@@ -96,43 +101,34 @@ class Automatico(Frame):
         CanvasM.create_window(565,333, window=button6)
 
         #boton LQR
-        button7 = Tk.Button(self, image=controller.Imagen14,bg='white', command=lambda: control('LQR'))
+        button7 = Tk.Button(self, image=controller.Imagen14,bg='white', command=lambda: s_LQR())
         button7['border']='0'
         button7.pack()
         CanvasM.create_window(65,125, window=button7)
 
+        def s_LQR():
+            var.PID=False
+            button8.config(image=controller.Imagen16)
+            var.LQR= not var.LQR
+            controller.serialReference.sendSerialData('L')
+            if var.LQR== False: button7.config(image=controller.Imagen14)#Poner imagen off LQR
+            elif var.LQR == True: button7.config(image=controller.Imagen13)#Poner imagen on LQR
+                
+
         #boton PID
-        button8 = Tk.Button(self, image=controller.Imagen16,bg='white',command=lambda: control('PID'))
+        button8 = Tk.Button(self, image=controller.Imagen16,bg='white',command=lambda: s_PID())
         button8['border']='0'
         button8.pack()
         CanvasM.create_window(135,125, window=button8)
-        
-        def control(est):
-            if est=='LQR':
-                if var.LQR == False:
-                    button7.config(image=controller.Imagen13)
-                    var.LQR=True
-                    controller.serialReference.sendSerialData('L')
-                    button8.config(image=controller.Imagen16)
-                    var.PID=False
-                    controller.serialReference.sendSerialData('N')
-                elif var.LQR == True:
-                    controller.serialReference.sendSerialData('L')
-                    button7.config(image=controller.Imagen14)
-                    var.LQR=False
 
-            if est=='PID':
-                if var.PID == False:
-                    controller.serialReference.sendSerialData('N')
-                    button8.config(image=controller.Imagen15)
-                    var.PID=True
-                    controller.serialReference.sendSerialData('L')
-                    button7.config(image=controller.Imagen14)
-                    var.LQR=False
-                elif var.PID == True:
-                    controller.serialReference.sendSerialData('N')
-                    button8.config(image=controller.Imagen16)
-                    var.PID=False
+        def s_PID():
+            var.LQR=False
+            button7.config(image=controller.Imagen14)
+            var.PID= not var.PID
+            controller.serialReference.sendSerialData('N')
+            if var.PID== False: button8.config(image=controller.Imagen16)#Poner imagen off PID
+            elif var.PID == True: button8.config(image=controller.Imagen15)#Poner imagen on LQR
+
 
         #Cuadrado azul de set point
         CanvasM.create_rectangle(0,145,220,210,fill='#DAE3E9')
@@ -159,10 +155,10 @@ class Automatico(Frame):
         CanvasM.create_window(725,73, window=button11)
 
         def sumaP():
-            var.P=var.P+1
+            var.P=var.P+0.001
             Label3.config(text=var.P)
         def restaP():
-            var.P=var.P-1
+            var.P=var.P-0.001
             Label3.config(text=var.P)
 
         #boton cargar I
@@ -186,10 +182,10 @@ class Automatico(Frame):
         CanvasM.create_window(725,122, window=button14)
 
         def sumaI():
-            var.I=var.I+1
+            var.I=var.I+0.00001
             Label4.config(text=var.I)
         def restaI():
-            var.I=var.I-1
+            var.I=var.I-0.00001
             Label4.config(text=var.I)
 
         #boton cargar D
@@ -211,10 +207,10 @@ class Automatico(Frame):
         CanvasM.create_window(725,172, window=button17)
 
         def sumaD():
-            var.D=var.D+1
+            var.D=var.D+0.0001
             Label5.config(text=var.D)
         def restaD():
-            var.D=var.D-1
+            var.D=var.D-0.0001
             Label5.config(text=var.D)
 
 #LABELS
@@ -368,7 +364,17 @@ class Automatico(Frame):
             Label11.config(text=controller.serialReference.getSerialData(2))
             Label12.config(text=controller.serialReference.getSerialData(3))
             Label13.config(text=controller.serialReference.getSerialData(4))
+            Label6.config(text=controller.serialReference.getSerialData(5))
+
+            var.count+=1
+            if var.count == 2400:
+                controller.serialReference.sendSerialData('E')
+                
+                time.sleep(1)
+                controller.serialReference.sendSerialData('E')
+                
+                var.count = 0
            
-            self.after(500, refresh)
+            self.after(25, refresh)
 
         refresh()
